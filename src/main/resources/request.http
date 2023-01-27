@@ -6,3 +6,8 @@ Content-Type: application/json
 }
 
 ###
+
+GET localhost:8080/api/v4/simple-orders
+Content-Type: application/json
+
+###
