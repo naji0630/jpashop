@@ -9,6 +9,7 @@ import jpabook.jpashop.repository.OrderSimpleQueryDto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -41,6 +42,17 @@ public class OrderSimpleApiController {
 
         return orderRepository.findAllWithMemberDelivery().stream()
             .map(SimpleOrderDto::new).collect(Collectors.toList());
+    }
+
+    @GetMapping("/api/v3.1/orders")
+    public List<SimpleOrderDto> ordersV3_page(@RequestParam(value="offset", defaultValue = "0") int offset,
+                                              @RequestParam(value="limit", defaultValue = "100") int limit) {
+
+        List<Order> orders = orderRepository.findAllWithMemberDelivery(offset, limit);
+
+        List<SimpleOrderDto> result = orders.stream().map(SimpleOrderDto::new).collect(Collectors.toList());
+
+        return result;
     }
 
     @GetMapping("/api/v4/simple-orders")
